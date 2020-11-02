@@ -9,10 +9,21 @@ use App\Http\Requests\UpdateMovieRequest;
 class MovieController extends Controller
 {
     //
-    public function index(){
+    public function index(Request $request){
+        // dd($title);
+        // $movie = new Movie;
+        // $sta = Movie::where('title', $title)->get();
+        $title = $request->get('title', '');
 
-        $movies = Movie::all();
-        return response()->json($movies);
+            $moviesFiletered = Movie::search($title);
+            return response()->json($moviesFiletered);
+
+
+
+
+
+
+
 
     }
     public function show($id) {
@@ -36,7 +47,7 @@ class MovieController extends Controller
 
     }
     public function destroy($id){
-        
+
         $movie = Movie::findOrFail($id);
         $movie->delete();
         return $movie;
