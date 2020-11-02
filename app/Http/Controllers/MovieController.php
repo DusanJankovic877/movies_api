@@ -6,17 +6,31 @@ use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Http\Requests\CreateMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
+// use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 class MovieController extends Controller
 {
     //
     public function index(Request $request){
-        // dd($title);
-        // $movie = new Movie;
-        // $sta = Movie::where('title', $title)->get();
         $title = $request->get('title', '');
+        $moviesFiltered = Movie::search($title);
 
-            $moviesFiletered = Movie::search($title);
-            return response()->json($moviesFiletered);
+        // $moviesFiltered = Movie::query();
+        // $perPage = $request->get('take', '');
+        // $skip = $request->get('skip', null);
+        $take = $request->get('take', 0);
+        // $orderBy = $request->get('orderBy',null);
+        // $orderDirection = $request->get('orderDirection', 'desc');
+
+        // $moviesQuery = Movie::query();
+        // $moviesQuery->where('title', 'like', '%' . $title . '%');
+        // // $moviesQuery->orderBy($orderBy, $orderDirection);
+        // $moviesQuery->skip($skip)->take($take);
+        $movies = $moviesFiltered->paginate($take);
+        return response()->json($movies);
+
+
+
 
 
 

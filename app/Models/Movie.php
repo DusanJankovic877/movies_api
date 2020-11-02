@@ -18,13 +18,10 @@ class Movie extends Model
     public static function search($title){
 
             $movies = Movie::where('title', 'like', '%'. $title .'%')->get();
-
-
             if($movies->isEmpty()){
-                return Movie::all();
-
+                return Movie::query();
             } else {
-                return Movie::where('title', 'like', '%'. $title .'%')->get();
+                return Movie::query('title', 'like', '%'. $title .'%');
             }
 
         }
